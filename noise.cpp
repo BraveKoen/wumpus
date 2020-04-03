@@ -2,7 +2,7 @@
 using namespace std;
 
 //this function checks if there are noises nearby and lets the player know
-game_data makeNoise(game_data game) {
+void makeNoise(game_data & game) {
   bool wumpus = false;
   bool pit = false;
   bool bat = false;
@@ -28,15 +28,15 @@ game_data makeNoise(game_data game) {
   }
   if(pit){
     printEffect("I feel a draft.", true);
-    game = ai_listen("draft",game.player.index + 1, pit, game);
+    ai_listen("draft",game.player.index + 1, pit, game);
   }
-  else if(bat){
+  if(bat){
     printEffect("I hear the flapping of wings.", true);
-    game = ai_listen("flapping",game.player.index + 1, bat, game);
+    ai_listen("flapping",game.player.index + 1, bat, game);
   }
-  else if(wumpus){
+  if(wumpus){
     printEffect("I smell somethings foul.",true);
-    game = ai_listen("smell",game.player.index + 1, wumpus, game);
+    ai_listen("smell",game.player.index + 1, wumpus, game);
   }
-  return game;
+  return;
 }

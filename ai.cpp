@@ -1,79 +1,79 @@
 #include "ai.hpp"
 using namespace std;
 
-game_data ai_move (game_data game){
+void ai_move (game_data & game){
 
 }
 
-game_data adjust_rank(game_data game, int room, int n){    
+void adjust_rank(game_data & game, int room, int n){    
     for (unsigned int i=0; i < game.ai.map[room].neighbour.size(); i++){
         game.ai.map[game.ai.map[room].neighbour[i]].rank + n;
     }
-    return game;
+    return;
 }
 
-game_data ai_listen (string type, int room, int info, game_data game){
+void ai_listen (string type, int room, int info, game_data & game){
     //neighbour
     if (type == "neighbour"){
         for(unsigned int i=0; i < game.ai.map[room].neighbour.size(); i++){
             if (game.ai.map[room].neighbour[i] == info){
-                return game;
+                return;
             }
         }
         game.ai.map[room].neighbour.push_back(info);
-        return game;
+        return;
     }
     //draft
     else if (type == "draft"){
         if(game.ai.map[room].draft == false){
-           game = adjust_rank(game, room, -1);
+           adjust_rank(game, room, -1);
         }
         game.ai.map[room].draft = info;
-        return game;
+        return;
     }
     //flapping
     else if (type == "flapping"){
         if(game.ai.map[room].flapping == false){
-           game = adjust_rank(game,room, -1);
+           adjust_rank(game,room, -1);
         }
         game.ai.map[room].flapping = info;
-        return game;
+        return;
     }
     //smell
     else if (type == "smell"){
         if(game.ai.map[room].smell == false){
-           game = adjust_rank(game,room , -1);
+           adjust_rank(game,room , -1);
         }
         game.ai.map[room].smell = info;
-        return game;
+        return;
     }
     //pit
     else if (type == "pit"){
         if(game.ai.map[room].pit == false){
-           game = adjust_rank(game, room, -1);
+           adjust_rank(game, room, -1);
         }
         game.ai.map[room].pit = info;
-        return game;
+        return;
     }
     //bat
     else if (type == "bat"){
         if(game.ai.map[room].bat == false){
-           game = adjust_rank(game, room, -1);
+           adjust_rank(game, room, -1);
         }    
         game.ai.map[room].bat = info;
-        return game;
+        return;
     }
     //wumpus
     else if (type == "wumpus"){
         if(game.ai.map[room].wumpus == false){
-           game = adjust_rank(game, room, -1);
+           adjust_rank(game, room, -1);
         }
         game.ai.map[room].wumpus = info;
-        return game;
+        return;
     }else{
         cout <<"error" << endl;
         game.running = false;
-        return game;
+        return;
     }
 }
 

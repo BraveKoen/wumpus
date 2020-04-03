@@ -22,7 +22,7 @@ void mainMenu(){
         game_data game = read_config();
         while(game.running == true) {
             game.ai = make_ai(game.player.index, game.player.arrows, game.map.size());
-            game = move_or_shoot(game, "");
+            move_or_shoot(game, "");
         }
     }
     else if(playerInput == "q" || playerInput == "Q"|| playerInput == "quit"|| playerInput == "Quit"){

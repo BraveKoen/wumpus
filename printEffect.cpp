@@ -17,7 +17,7 @@ void rules(){
   ifstream myfile("rulesWumpus.txt");
   if (myfile.is_open()) {
     while (getline(myfile, line)) {
-      printEffect(line,true,25);
+      printEffect(line,true,15);
     }
     myfile.close();
   }

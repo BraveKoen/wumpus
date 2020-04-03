@@ -15,9 +15,9 @@
 #include "ai.hpp"
 using namespace std;
 
-game_data gameOver(game_data game);
-game_data restart(game_data game);
-game_data move_wumpus(game_data game);
-game_data move_bat(game_data game);
+void gameOver(game_data & game);
+void restart(game_data & game);
+void move_wumpus(game_data & game);
+void move_bat(game_data & game);
 
 #endif /* _ENEMYBEHAVIOUR_HPP */

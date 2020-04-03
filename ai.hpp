@@ -3,7 +3,7 @@
 
 #include "mapIO.hpp"
 
-game_data ai_listen (string type, int room, int info, game_data game);
+void ai_listen (string type, int room, int info, game_data & game);
 ai_memory make_ai (int playerIndex, int arrows, int mapSize);
 
 #endif /* _AI_HPP */

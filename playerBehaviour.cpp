@@ -1,7 +1,7 @@
 #include "playerBehaviour.hpp"
 
 //this function ask the player wich room they want to move to.
-game_data player_move(game_data game, string new_room = ""){
+void player_move(game_data & game, string new_room = ""){
     printEffect("Wich room would you like to move to: ", false);
     if(new_room == ""){
         cin >> new_room;
@@ -12,22 +12,26 @@ game_data player_move(game_data game, string new_room = ""){
             room2 = stoi(new_room);
         }
     }
-
+    
     for(unsigned int i=0; i<game.map[game.player.index].neighbour.size(); i++){
         if(room2 == game.map[game.player.index].neighbour[i]){
             game.player.index = room2-1;
             //functiecall that checks for gameover or noises.
+            cout << "mmm"<< endl;
             gameOver(game);
-            game = move_bat(game);
-            return game;
+            cout<<"hhh"<<endl;
+            move_bat(game);
+            cout <<"lll"<<endl;
+            return;
         }
     }
     printEffect("you cannot move here.", true);
-    return player_move(game);
+    player_move(game);
+    return;
 }
 
 //this function lets the player shoot at 1 of the neighbouring rooms and checks if the player has won or not.
-game_data player_shoot(game_data game, int room_to_shoot = 0){
+void player_shoot(game_data & game, int room_to_shoot = 0){
     printEffect("You have ", false);  cout << game.player.arrows; printEffect(" arrows left.", true);
     printEffect("Wich room would you like to shoot at? ", false);
     if (room_to_shoot == 0){
@@ -36,25 +40,26 @@ game_data player_shoot(game_data game, int room_to_shoot = 0){
     for(unsigned int i=0; i<game.map[game.player.index].neighbour.size(); i++){
         if(room_to_shoot == game.map[game.player.index].neighbour[i] && game.map[room_to_shoot-1].wumpus == true){
             game.player.arrows--;
-            printEffect("You shot the wumpus, you win!\n Press enter to go back to main menu.", true);
+            printEffect("You shot the wumpus, you win!", true);
             game.running = false;
-            return game;
+            return;
         }
         else if(room_to_shoot == game.map[game.player.index].neighbour[i] && game.map[room_to_shoot-1].wumpus == false){
             game.player.arrows--;
             gameOver(game);
             printEffect("You missed, the wumpus has now moved to a random location.", true);
-            game = move_wumpus(game);
+            move_wumpus(game);
             gameOver(game);
-            return game;
+            return;
         }
     }
     printEffect("You cannot shoot here.", true);
-    return player_shoot(game);
+    player_shoot(game);
+    return;
 }
 
 //this function will apear if the player decides to give up. The player can choose to reveal the location of the wumpus, bats and pits.
-game_data give_up(game_data game, string choice = ""){
+void give_up(game_data & game, string choice = ""){
     printEffect("You decided to give up.\nWould you like to reveal the location of the Wumpus, Bats or Pits? W/B/P/NO: ", false);
     if(choice == ""){
         cin >> choice;
@@ -66,6 +71,7 @@ game_data give_up(game_data game, string choice = ""){
             }
         }
         give_up(game);
+        return;
     }
     else if(choice == "b" || choice == "B"|| choice == "bats"|| choice == "Bats"){
         for(unsigned int i=0; i<game.map.size();i++){
@@ -74,6 +80,7 @@ game_data give_up(game_data game, string choice = ""){
             }
         }
         give_up(game);
+        return;
     }
     else if(choice == "p" || choice == "P"|| choice == "pits"|| choice == "Pits"){
         for(unsigned int i=0; i<game.map.size();i++){
@@ -82,43 +89,49 @@ game_data give_up(game_data game, string choice = ""){
             }
         }
         give_up(game);
+        return;
     }
     else if(choice == "n" || choice == "N"|| choice == "no"|| choice == "NO"){
         game.running = false;
-        return game;
+        return;
     }else{
         printEffect("invalid input", true);
-        return give_up(game);
+        give_up(game);
+        return;
     }
 }
 
 //this function gives the player a choice if they want to move to a neighbouring room or if they wish to shoot an arrow.
-game_data move_or_shoot(game_data game, string choice){
+void move_or_shoot(game_data & game, string choice){
     printEffect("You are currently in room ", false); cout << game.map[game.player.index].number; printEffect(". The neighbouring rooms are: ", false); 
     for(unsigned int i=0; i<game.map[game.player.index].neighbour.size(); i++){
         cout << game.map[game.player.index].neighbour[i];
         Sleep(50);
-        game = ai_listen("neighbour", game.map[game.player.index].number, game.map[game.player.index].neighbour[i], game);   
+        ai_listen("neighbour", game.map[game.player.index].number, game.map[game.player.index].neighbour[i], game);   
         if(i < game.map[game.player.index].neighbour.size()-1){
             printEffect(", ", false);
         }
     }
     cout << endl;
-    game = makeNoise(game);
+    makeNoise(game);
     printEffect("Do you wish to Move, Shoot or Quit? M/S/Q: ", false);
     if(choice == ""){
         cin >> choice;
     }
     if(choice == "m" || choice == "M"|| choice == "move"|| choice == "Move"){
-        return player_move(game);
+        player_move(game);
+        return;
     }
     else if(choice == "s" || choice == "S"|| choice == "shoot"|| choice == "Shoot"){
-        return player_shoot(game);
+        player_shoot(game);
+        return;
     }
     else if(choice == "q" || choice == "Q"|| choice == "quit"|| choice == "Quit"){
-        return give_up(game);
+        give_up(game);
+        return;
     }else{
         printEffect("invalid input", true);
-        return move_or_shoot(game, "");
+        move_or_shoot(game, "");
+        return;
     }
 }

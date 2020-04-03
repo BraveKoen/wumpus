@@ -9,6 +9,6 @@
 #include "ai.hpp"
 using namespace std;
 
-game_data makeNoise(game_data game);
+void makeNoise(game_data & game);
 
 #endif /* _NOISE_HPP */
