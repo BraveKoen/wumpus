@@ -1,6 +1,4 @@
 #include "mapMaker.hpp"
-//temporary:
-#include <iostream>
 using namespace std;
 
 //Returns a random sequence of all unique ints in range 1 through n
@@ -38,17 +36,29 @@ vector<room> randomize_wumpus (vector<room> map, unsigned int nWumpus){
 //Randomizes pit and bat locations
 vector<room> randomize_hazards (vector<room> map, unsigned int nPits, unsigned int nBats){
     srand (time(NULL));
+    int rnumber;
     for (unsigned int i=0; i<nPits; i++){
-        int rnumber = rand() % map.size() + 1;
+        rnumber = rand() % map.size() + 1;
         map[rnumber].pit = true;
+    }
+    for (unsigned int i=0; i<nBats; i++){
+        int rnumber = rand() % map.size() + 1;
+        for (unsigned int safety=0; map[rnumber].pit==true || safety<10000; safety++){
+            rnumber = rand() % map.size() + 1;
+        }
+        map[rnumber].bat = true;
     }
     return map;
 }
 
-//Randomizes player position
+//Randomizes player position. Always call after placing wumpus & hazards to make sure the player wont be placed in the same location.
 player_data randomize_player_position(player_data player, vector<room> map){
     srand (time(NULL));
-    player.index = rand() % map.size() + 1;
+    int rnumber = rand() % map.size() + 1;
+    for (unsigned int safety=0; map[rnumber].pit==true || map[rnumber].bat==true || map[rnumber].wumpus==true || safety<100000; safety++){
+        rnumber = rand() % map.size() + 1;
+    }
+    player.index = rnumber;
     return player;
 }
 

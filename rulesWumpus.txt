@@ -1,0 +1,39 @@
+Rules of the game:
+
+The rules of the Wumpus hunt are simple, survive and hunt.
+
+The Wumpus is a big and dangerous beast, eating anything that gets too close.
+It's strong jaws and sharp teeth let it able to pierce even the thickest armour,
+and therefore cannot be attacked in close combat. If you enter the room our
+good friend the Wumpus resides in, he will eat you.
+
+However, the Wumpus is a very picky beast, usually only settling in a cave with
+exactly 20 rooms, but sometimes will begrudgingly have to make-do with a larger
+or smaller cave if it has no option. In any case, every room in his cave
+will have a passage to exactly 3 other rooms.
+
+These caves alone are also dangerous, having rooms with massive bottomless
+pits and giant bats flapping through the dark. Be careful of these, you will
+know when one is in a nearby room. You will also notice getting closer to the
+Wumpus, smelling his foul stench from 2 rooms away, talk about a stench!
+
+If you decide to move into one of these rooms, something will happen.
+If you move into a room with a bottomless pit, you fall into it and you will die.
+And if you move into a room with a giant bat, the bat startles and flies off
+to another room, taking you with him. These bats can move you anywhere, so you
+can be dropped in a pit or be thrown into the lair of the Wumpus,
+if either of these happen, you die.
+
+As stated before you cannot defeat the beast in close combat, that means you
+will have to shoot it with an arrow from another room. Be careful though,
+you are only able to bring 5 arrows with you, and if you use all of them, the
+wumpus will eventually find you and you lose the game, so use these arrows
+sparingly. If you hit the Wumpus, it will die, and you win the game. If you
+miss however, the Wumpus will move to a random room. The Wumpus can move to a
+room with a bat or a bottomless pit, as he is too big to be taken by the bats,
+and he can climb walls with ease. One more thing, he is able to move to your
+room! If he does, he'll eat you, so you best not miss...
+
+
+So go out there, hunt the Wumpus! Will you come back a hero? Or not at all?
+We shall see...

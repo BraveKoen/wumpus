@@ -3,46 +3,59 @@
 #include <string>
 #include "mapIO.hpp"
 #include "playerBehaviour.hpp"
+#include "ai.hpp"
+#include "mapMaker.hpp"
 using namespace std;
 
+void mainMenu(){
+    string playerInput = "";
+    printEffect("Hunt the Wumpus",true);
+    printEffect("welcome, what would you like to do: ",true);
+    printEffect("p: play the game",true);
+    printEffect("r: rules of the game", true);
+    printEffect("g: generate a new cave",true);
+    printEffect("c: let the computer play for you",true);
+    printEffect("q, quit the game",true);
+    cin >> playerInput;
 
+    if(playerInput == "p" || playerInput == "P"|| playerInput == "play"|| playerInput == "Play"){
+        game_data game = read_config();
+        while(game.running == true) {
+            game.ai = make_ai(game.player.index, game.player.arrows, game.map.size());
+            game = move_or_shoot(game, "");
+        }
+    }
+    else if(playerInput == "q" || playerInput == "Q"|| playerInput == "quit"|| playerInput == "Quit"){
+        exit(0);
+    }else if(playerInput == "r" || playerInput == "R"|| playerInput == "rules"|| playerInput == "Rules"){
+        rules();
+    }else if(playerInput == "g" || playerInput == "G"|| playerInput == "generate"|| playerInput == "Generate"){
+        vector<room> map = gen_dodecahedron();
+        player_data player = {1, 5};
+        
+        map = randomize_hazards(map, 2, 2);
+        map = randomize_wumpus(map, 1);
 
+        player = randomize_player_position(player, map);
+
+        game_data game = make_game_obj(map, player);
+
+        write_config(game);
+        printEffect("New cave generated!", true);
+    }else if(playerInput == "c" || playerInput == "C"|| playerInput == "computer"|| playerInput == "Computer"){
+        game_data game = read_config();
+        while(game.running == true) {
+            game.ai = make_ai(game.player.index, game.player.arrows, game.map.size());
+            }
+    }
+    else{
+    printEffect("invalid input", true);
+    }
+}
 
 
 int main(){
-    string restart = "y";
-    do{
-        //temp map
-        //vector<room> map = {
-        //    {1,{2,5,8}, false, false, false},
-        //    {2,{1,3,10}, false, false, false},
-        //    {3,{2,4,12}, false, false, false},
-        //    {4,{3,5,14},false, false, false},
-        //    {5,{1,4,6}, false, false, false},
-        //    {6,{5,7,15}, false, false, false},
-        //    {7,{6,8,17}, false, false, false},
-        //    {8,{1,7,9}, false, false, false},
-        //    {9,{8,10,18}, false, false, false},
-        //    {10,{9,11,2}, false, false, true},
-        //    {11,{10,12,19}, false, false, false},
-        //    {12,{11,13,3}, false, false, false},
-        //    {13,{12,14,20}, false, false, false},
-        //    {14,{13,15,4}, false, false, false},
-        //    {15,{14,16,6}, false, false, false},
-        //    {16,{15,17,20}, false, false, false},
-        //    {17,{16,18,7}, false, false, false},
-        //    {18,{17,19,9}, false, false, false},
-        //    {19,{18,20,11}, false, false, false},
-        //    {20,{13,16,19}, false, false, false},
-        //};
-        //temp playerdata
-        //player_data player = {0, 5};
-        game_data game = read_config();
-        int safety = 0;
-        while(true || safety < 999999999){
-            game = move_or_shoot(game);
-            safety++;
-        }
+    while (true){
+        mainMenu();
     }
-    while(restart == "y");
 }

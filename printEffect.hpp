@@ -10,6 +10,7 @@
 #include "mapIO.hpp"
 #include "printEffect.hpp"
 using namespace std;
-void printEffect(string text,bool line);
+void printEffect(string text,bool line,int speed = 50);
+void rules();
 
 #endif /* _PRINTEFFECT_HPP */

@@ -6,8 +6,9 @@
 #include <string>
 #include "mapIO.hpp"
 #include "printEffect.hpp"
+#include "ai.hpp"
 using namespace std;
 
-void makeNoise(game_data game);
+game_data makeNoise(game_data game);
 
 #endif /* _NOISE_HPP */

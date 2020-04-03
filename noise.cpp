@@ -2,24 +2,41 @@
 using namespace std;
 
 //this function checks if there are noises nearby and lets the player know
-void makeNoise(game_data game) {
+game_data makeNoise(game_data game) {
+  bool wumpus = false;
+  bool pit = false;
+  bool bat = false;
+
   vector<int> neigh = game.map[game.player.index].neighbour;
   for (unsigned int i = 0; i < neigh.size(); i++) {
     vector<int> neigh_second = game.map[neigh[i] - 1].neighbour;
     if (game.map[neigh[i] - 1].wumpus == true) {
-      printEffect("I smell something foul.", true);
+      wumpus = true;
     } else {
       for (unsigned int j = 0; j < neigh_second.size(); j++) {
-        if (game.map[neigh_second[j] - 1].wumpus == true) {
-          printEffect("I smell something foul.", true);
+        if (game.map[neigh_second[j] - 1].wumpus == true && wumpus) {
+          wumpus = true;
         }
       }
     }
     if (game.map[neigh[i] - 1].pit == true) {
-      printEffect("I feel a draft.", true);
+      pit = true;
     }
     if (game.map[neigh[i] - 1].bat == true) {
-      printEffect("Soon you will be relocated.", true);
+      bat = true;
     }
   }
+  if(pit){
+    printEffect("I feel a draft.", true);
+    game = ai_listen("draft",game.player.index + 1, pit, game);
+  }
+  else if(bat){
+    printEffect("I hear the flapping of wings.", true);
+    game = ai_listen("flapping",game.player.index + 1, bat, game);
+  }
+  else if(wumpus){
+    printEffect("I smell somethings foul.",true);
+    game = ai_listen("smell",game.player.index + 1, wumpus, game);
+  }
+  return game;
 }
