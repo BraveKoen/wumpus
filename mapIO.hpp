@@ -18,6 +18,7 @@ struct room{
 struct player_data{
     int index;
     int arrows;
+    int score;
 };
 
 struct ai_room{
@@ -42,6 +43,8 @@ struct game_data{
     player_data player;
     bool running = true;
     ai_memory ai;
+    string res = "";
+    string menuOption = "";
 };
 
 void write_config(const game_data & game);

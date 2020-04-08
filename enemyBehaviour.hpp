@@ -13,6 +13,7 @@
 #include "mapIO.hpp"
 #include "printEffect.hpp"
 #include "ai.hpp"
+#include "mainMenu.hpp"
 using namespace std;
 
 void gameOver(game_data & game);

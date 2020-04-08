@@ -3,18 +3,19 @@
 #include <iostream>
 using namespace std;
 
+//Old, new caves can now be generated straight from the game.
 
-int main(){
+//int main(){
 
-    vector<room> map = gen_dodecahedron();
-    player_data player = {1, 5};
+//    vector<room> map = gen_dodecahedron();
+//    player_data player = {1, 5};
     
-    map = randomize_hazards(map, 2, 2);
-    map = randomize_wumpus(map, 1);
+//    map = randomize_hazards(map, 2, 2);
+//    map = randomize_wumpus(map, 1);
 
-    player = randomize_player_position(player, map);
+//    player = randomize_player_position(player, map);
 
-    game_data game = make_game_obj(map, player);
+//    game_data game = make_game_obj(map, player);
 
-    write_config(game);
-}
+//    write_config(game);
+//}
