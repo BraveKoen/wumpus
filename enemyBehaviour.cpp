@@ -13,7 +13,6 @@ void restart(game_data & game) {
     return;
   } else if (res == "y" || res == "Y" || res == "yes" || res == "Yes" || res == "YES") {
     game.running = false;
-    cout << "Menu option: " << game.menuOption;
     return;
   } else {
     printEffect("that is not a valid answer", true);

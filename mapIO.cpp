@@ -1,7 +1,7 @@
 #include "mapIO.hpp"
 using namespace std;
 
-
+//Writes map and player data to file in arbitrary format.
 void write_config(const game_data & game){
     ofstream configFile;
     configFile.open("gameConfig.txt");
@@ -19,6 +19,7 @@ void write_config(const game_data & game){
     configFile.close();
 }
 
+//Reads map and player data from file in arbitrary format. Returns game_data struct. Structs are defined in mapIO.hpp.
 game_data read_config(){
     room tempRoom;
     vector<room> map;
@@ -52,7 +53,7 @@ game_data read_config(){
             game_data game = {map, player};
             return game;
         }else{
-            cout << "Incorrect file syntax, manually review or run configTool.exe";
+            cout << "Incorrect file syntax, manually review, or choose generate new cave in main menu.";
         }
         configFile.close();
     }else{

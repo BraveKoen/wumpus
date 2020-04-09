@@ -1,9 +1,11 @@
 #include "mainMenu.hpp"
 using namespace std;
 
+//Used to start the game, view rules and statistics, generate a new cave or let the computer play for you
 void mainMenu(game_data & game){
     cout << endl;
     string playerInput = game.menuOption;
+    //Skips the printing of main menu options if game.menuOption is already set, which should only be 'rp' or 'rc' if the yes option is selected in the restart menu, by either player or computer (which will do so automatically).
     if(playerInput == ""){
         printEffect("HUNT THE WUMPUS\n", true);
         printEffect("welcome, what would you like to do: ",true);
@@ -17,8 +19,9 @@ void mainMenu(game_data & game){
     }
 
     if(playerInput == "p" || playerInput == "P"|| playerInput == "play"|| playerInput == "Play"){
+        // this part runs the game
         game = read_config();
-        game.player.score = 500;
+        game.player.score = 500; //sets the base score to 500
         game.ai = make_ai(game.player.index, game.player.arrows, game.map.size()); //Purely exists to counter errors if functions are called that need an ai to exist
         game.menuOption = "rp";
         game.res = "";
@@ -26,6 +29,7 @@ void mainMenu(game_data & game){
             move_or_shoot(game, "", "");
         }
     }else if(playerInput == "rp"){
+        //this part is activated once someone wants to replay the game after they've died, this way it skips the main menu
         game = read_config();
         game.menuOption = "rp";
         game.res = "";
@@ -35,10 +39,13 @@ void mainMenu(game_data & game){
             move_or_shoot(game, "", "");
         }
     }else if(playerInput == "q" || playerInput == "Q"|| playerInput == "quit"|| playerInput == "Quit"){
+        // exits the entire program
         exit(0);
     }else if(playerInput == "r" || playerInput == "R"|| playerInput == "rules"|| playerInput == "Rules"){
+        // opens and reads a text file with the rules of the game
         rules();
     }else if(playerInput == "g" || playerInput == "G"|| playerInput == "generate"|| playerInput == "Generate"){
+        // this generates a new map with the same amount of rooms but put in different positions
         vector<room> map = gen_dodecahedron();
         player_data player = {1, 5};
         
@@ -52,8 +59,9 @@ void mainMenu(game_data & game){
         write_config(game);
         printEffect("New cave generated!", true);
     }else if(playerInput == "c" || playerInput == "C"|| playerInput == "computer"|| playerInput == "Computer"){
+        // this runs the game, but also runs the ai do the computer will play the game for you
         game = read_config();
-        game.player.score = 500;
+        game.player.score = 500; //sets the base score to 500
         game.ai = make_ai(game.player.index, game.player.arrows, game.map.size());
         game.res = "y";
         game.menuOption = "rc";
@@ -72,6 +80,7 @@ void mainMenu(game_data & game){
                 ai_move(game);
             }
     }else if(playerInput == "s" || playerInput == "S"|| playerInput == "score"|| playerInput == "Score"){
+        // this will show the current highest scoring player there is
         printEffect("the current highscore is: ",true);
         string line;
         vector<string> lines;
@@ -88,6 +97,7 @@ void mainMenu(game_data & game){
         printEffect(" points",true);
     }
     else{
+     // if someone decides to put something else in, it will give an error and will ask for another input
     printEffect("invalid input", true);
     playerInput = "";
     }

@@ -1,4 +1,4 @@
-#ifndef _MAPIMAKER_HPP
+#ifndef _MAPMAKER_HPP
 #define _MAPMAKER_HPP
 
 #include <vector>

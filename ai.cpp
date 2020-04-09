@@ -1,6 +1,7 @@
 #include "ai.hpp"
 using namespace std;
 
+//Adjusts 'room's rank variable by 'n'.
 void adjust_rank(game_data & game, int room, int n){    
     for (unsigned int i=0; i < game.ai.map[room].neighbour.size(); i++){
         game.ai.map[game.ai.map[room].neighbour[i]].rank + n;
@@ -8,6 +9,7 @@ void adjust_rank(game_data & game, int room, int n){
     return;
 }
 
+//Used to make ai do things based on 'type'. Applies 'info' to 'room'. Can be used to tell the ai where a certain hazard is.
 void ai_listen (string type, int room, int info, game_data & game){
     //neighbour
     if (type == "neighbour"){
@@ -90,8 +92,10 @@ ai_memory make_ai (int playerIndex, int arrows, int mapSize){
     player_data player = {playerIndex, arrows};
     return {map, player};
 }
-//this function lets the ai move to rooms witch it has not been to yet. if it knows to find a wumpus, the ai will shoot it.
+//Enables the ai to move. Chooses rooms it has not been to over rooms it has, moves mostly random otherwise. Will not walk onto the same hazard twice. After discovering the wumpus it will try to calculate the shortest route and then follow it and shoot the wumpus.
 void ai_move (game_data & game){
+    //Ai has know issue where it is impossible to complete the game if either the wumpus or player spawn is surrounded in hazards.
+    //Following for loop will shoot the wumpus if it has been discovered and is in of the current neighbouring rooms.
     game.ai.map[game.ai.player.index].neighbour = game.map[game.player.index].neighbour;
     for(unsigned int i=0; i < game.ai.map[game.ai.player.index].neighbour.size(); i++){
         if(game.ai.map[game.ai.map[game.ai.player.index].neighbour[i]-1].wumpus){
@@ -100,6 +104,8 @@ void ai_move (game_data & game){
             return;
         }
     }
+
+    //Checks if wumpus has been found.
     bool wumpusFound;
     for(unsigned int i=0; i<game.map.size(); i++){
         if(game.ai.map[i].wumpus){
@@ -108,6 +114,7 @@ void ai_move (game_data & game){
         }
     }
 
+    //Makes route to discovered wumpus of max length 4, this is enough for the base dodecahedron map. Could be rewritten to recursive function for more readability and possibly longer routes.
     vector<string> route;
     bool routeDone = false;
     if(wumpusFound == true){
@@ -184,6 +191,7 @@ void ai_move (game_data & game){
     int rnumber = rand() % game.map[game.ai.player.index].neighbour.size();
     vector<bool> beenTo = {};
     int countBeenTo = 0;
+    //Checks which neighbours we have or have not been to, stores this in beenTo. Also ups countBeenTo if we have.
     for(unsigned int i=0; i < game.map[game.ai.player.index].neighbour.size(); i++){
         if(game.ai.map[game.ai.player.index].neighbour.size() > 0){
             beenTo.push_back(true);
@@ -193,8 +201,9 @@ void ai_move (game_data & game){
         }
     }
     
+    //Uses countBeenTo and beenTo to check if we have already been to all current neighbours.
     int safety;
-    if(countBeenTo == beenTo.size()){
+    if(countBeenTo == beenTo.size()){//If we have been to all current neighbours we will go to a random room that does not have a hazard.
         safety = 0;
         while(game.ai.map[game.ai.map[game.ai.player.index].neighbour[rnumber]-1].bat || game.ai.map[game.ai.map[game.ai.player.index].neighbour[rnumber]-1].pit || safety > 100){
             rnumber = rand() % game.ai.map[game.ai.player.index].neighbour.size();
@@ -202,7 +211,7 @@ void ai_move (game_data & game){
         }
         string room_number = to_string(game.ai.map[game.ai.player.index].neighbour[rnumber]);
         move_or_shoot(game, "m", room_number);
-    }else{
+    }else{//If we have not been to all current neighbours we will move to a random undiscovered neighbour.
         safety = 0;
         while(beenTo[rnumber]==true){
             rnumber = rand() % game.ai.map[game.ai.player.index].neighbour.size();
